@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linux交互式测试 - 单选题</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        }
+        .quiz-container h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1f2937;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 0.5rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+        code {
+            background-color: #f3f4f6;
+            color: #4b5563;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 0.9em;
+        }
+        .correct {
+            border-color: #34d399 !important;
+            background-color: #f0fdf4 !important;
+        }
+        .incorrect {
+            border-color: #f87171 !important;
+            background-color: #fef2f2 !important;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 p-4 sm:p-8">
+
+    <div class="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg p-6 sm:p-10 quiz-container">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl font-extrabold text-gray-900">Linux 用户基础命令交互式测试</h1>
+            <p class="mt-2 text-lg text-gray-500">专项练习：单选题</p>
+        </header>
+
+        <div id="controls" class="sticky top-0 z-10 bg-white bg-opacity-90 backdrop-blur-sm py-4 mb-12 rounded-lg text-center">
+            <div id="score-container" class="mb-4 text-2xl font-bold text-gray-800 min-h-[36px]"></div>
+            <button id="submit-btn" onclick="calculateScore()" class="bg-green-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-700 transition-colors duration-300 shadow-md mr-2 sm:mr-4">
+                提交批改
+            </button>
+            <button id="reset-btn" onclick="resetQuiz()" class="bg-red-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-red-600 transition-colors duration-300 shadow-md">
+                重置试题
+            </button>
+        </div>
+
+        <div id="quiz-content"></div>
+    </div>
+
+    <script>
+        const quizData = [
+            { "type": "单选题", "question": "1. 要查看 `cd` 这个SHELL内置命令的帮助信息，应该使用哪个命令？", "options": ["A. `cd --help`", "B. `man cd`", "C. `help cd`", "D. `info cd`"], "answer": "C", "explanation": "PDF第2页明确指出 `help <命令>` 用于查看SHELL内置命令的帮助信息。" },
+            { "type": "单选题", "question": "2. 在命令行中，要将光标快速定位到命令的首位，应使用哪个快捷键？", "options": ["A. `Ctrl + e`", "B. `Ctrl + u`", "C. `Ctrl + a`", "D. `Tab`"], "answer": "C", "explanation": "PDF第3页快捷键列表中 `ctrl键 + a键` 的作用是定位到命令首位。" },
+            { "type": "单选题", "question": "3. `pwd` 命令的主要作用是什么？", "options": ["A. 变更目录", "B. 列出文件", "C. 显示当前所在目录的绝对路径", "D. 创建目录"], "answer": "C", "explanation": "PDF第2页说明 `pwd` 命令显示当前所在目录的绝对路径。" },
+            { "type": "单选题", "question": "4. 要切换到上一级目录，应该使用哪个命令？", "options": ["A. `cd /`", "B. `cd ..`", "C. `cd .`", "D. `cd ~`"], "answer": "B", "explanation": "PDF第5页指出 `cd ..` 用于切换到上一级目录。" },
+            { "type": "单选题", "question": "5. `ls -a` 命令中，参数 `-a` 的作用是什么？", "options": ["A. 显示详细信息", "B. 以人性化的方式显示文件大小", "C. 显示隐藏文件", "D. 按时间排序"], "answer": "C", "explanation": "PDF第6页说明 `ls -a` 用于显示隐藏文件。" },
+            { "type": "单选题", "question": "6. 在通配符中，哪一个可以提供限定的可选字符进行匹配，例如 `student[ABC]`？", "options": ["A. `*`", "B. `?`", "C. `()`", "D. `[]`"], "answer": "D", "explanation": "PDF第7页通配符说明中，方括号 `[]` 提供限定的可选字符进行匹配。" },
+            { "type": "单选题", "question": "7. `cat filename1 | grep 关键字` 命令实现了什么功能？", "options": ["A. 将关键字写入文件", "B. 在文件中搜索包含关键字的行", "C. 合并文件内容并搜索", "D. 显示文件全部内容"], "answer": "B", "explanation": "PDF第8页 `cat filename1 | grep 关键字` 的作用是搜索文件中的关键字。" },
+            { "type": "单选题", "question": "8. 重定向符号 `>>` 的作用是？", "options": ["A. 覆盖写入", "B. 作为命令输入", "C. 追加写入", "D. 管道"], "answer": "C", "explanation": "PDF第9页对重定向符号的说明中，`>>` 表示追加。" },
+            { "type": "单选题", "question": "9. 要递归复制目录 `dir1` 及其子目录下的所有内容到 `dir2`，应该使用哪个命令？", "options": ["A. `cp dir1 dir2`", "B. `cp -a dir1 dir2`", "C. `cp -r dir1 dir2`", "D. `cp --all dir1 dir2`"], "answer": "C", "explanation": "PDF第12页明确指出 `-r` 参数用于递归复制目录。" },
+            { "type": "单选题", "question": "10. 将文件 `old.txt` 重命名为 `new.txt` (在同一目录下)，应该使用哪个命令？", "options": ["A. `cp old.txt new.txt`", "B. `rename old.txt new.txt`", "C. `mv old.txt new.txt`", "D. `link old.txt new.txt`"], "answer": "C", "explanation": "PDF第13页说明 `mv [SOURCE] [同目录DEST]` 的作用是重命名。" },
+            { "type": "单选题", "question": "11. 在 `more` 命令中，前进一屏的按键是？", "options": ["A. `Enter` (回车键)", "B. `Space` (空格键)", "C. `q`", "D. `n`"], "answer": "B", "explanation": "PDF第14页 `more` 命令说明中，前进一屏是按空格键。" },
+            { "type": "单选题", "question": "12. `vim` 编辑器启动后，默认进入的是哪种模式？", "options": ["A. 编辑模式", "B. 命令模式", "C. 底线命令行模式", "D. 可视模式"], "answer": "B", "explanation": "PDF第15页图示说明，`vim filename` 后直接进入的是命令模式。" },
+            { "type": "单选题", "question": "13. 在 `vim` 的命令模式下，要快速跳转到文件的尾行首字母，应该使用哪个命令？", "options": ["A. `gg`", "B. `$`", "C. `G`", "D. `w`"], "answer": "C", "explanation": "PDF第17页 `vim` 移动类命令中 `G` 用于快速定位到尾行首字母。" },
+            { "type": "单选题", "question": "14. 在 `vim` 命令模式下，哪个命令可以用于向下查找一个关键字？", "options": ["A. `?`", "B. `f`", "C. `/`", "D. `n`"], "answer": "C", "explanation": "PDF第17页查找类命令中 `/` 用于向下查找一个关键字。" },
+            { "type": "单选题", "question": "15. `find . -size +500k` 命令的作用是？", "options": ["A. 查找小于500k的文件", "B. 查找等于500k的文件", "C. 查找所有文件并显示大小", "D. 查找大于500k的文件"], "answer": "D", "explanation": "PDF第20页 `find` 命令中 `-size +500k` 表示查找大小大于500k的文件。" },
+            { "type": "单选题", "question": "16. `ping` 命令的主要作用是？", "options": ["A. 查看网络连接状态", "B. 配置IP地址", "C. 测试本机与目标主机是否联通", "D. 显示路由表"], "answer": "C", "explanation": "PDF第24页说明 `ping` 的作用是测试本机与目标主机是否联通。" },
+            { "type": "单选题", "question": "17. `netstat -t` 命令用于列出哪种类型的连接？", "options": ["A. 所有连接", "B. UDP的连接", "C. 正在监听的连接", "D. TCP的连接"], "answer": "D", "explanation": "PDF第25页说明 `netstat -t` 用于列出TCP的连接。" },
+            { "type": "单选题", "question": "18. `ps -ef` 命令的作用是什么？", "options": ["A. 查看CPU和内存使用情况", "B. 查看当前系统所有进程的详细情况", "C. 结束一个进程", "D. 显示系统服务状态"], "answer": "B", "explanation": "PDF第29页说明 `ps -ef` 用于查看当前系统进程情况。" },
+            { "type": "单选题", "question": "19. 在 `top` 命令的交互界面中，按哪个键可以按照 **CPU** 占用率大小排序？", "options": ["A. `M`", "B. `T`", "C. `P`", "D. `U`"], "answer": "C", "explanation": "PDF第31页 `top` 交互命令中 `P` 用于按CPU占用率大小排序。" },
+            { "type": "单选题", "question": "20. 要查看系统已运行时间以及平均负载，应该使用哪个命令？", "options": ["A. `time`", "B. `free`", "C. `lscpu`", "D. `uptime`"], "answer": "D", "explanation": "PDF第32页说明 `uptime` 用于查看系统已运行时间及平均值。" },
+            { "type": "单选题", "question": "21. `df -h` 命令的作用是什么？", "options": ["A. 查看文件和目录大小", "B. 以易读格式查看磁盘空间使用情况", "C. 查看内存使用情况", "D. 查看文件系统类型"], "answer": "B", "explanation": "PDF第33页说明 `df` 命令用于查看磁盘空间使用情况，`-h` 表示易读。" },
+            { "type": "单选题", "question": "22. `du --max-depth=1` 命令的作用是？", "options": ["A. 显示所有文件和目录的大小", "B. 统计总大小", "C. 忽略深度为1的目录", "D. 仅统计到1层深度的目录"], "answer": "D", "explanation": "PDF第34页说明 `--max-depth` 用于忽略指定层数后的目录。" },
+            { "type": "单选题", "question": "23. 要查看最近执行的10条历史命令，应该使用哪个命令？", "options": ["A. `journalctl -n 10`", "B. `history 10`", "C. `tail -n 10 .bash_history`", "D. `history` (默认显示)"], "answer": "D", "explanation": "PDF第36页 `history` 命令本身就是查询历史记录，默认会列出多条。" },
+            { "type": "单选题", "question": "24. `scp user@ip:/remote/path /local/path` 命令实现了什么功能？", "options": ["A. 从本地上传文件到远程服务器", "B. 从远程服务器下载文件到本地", "C. 登录到远程服务器", "D. 比较本地与远程文件的差异"], "answer": "B", "explanation": "PDF第38页 `scp` 命令的例子 `scp user@xx.xx.xx.xx:/opt/roche/fsr/* D:\\Lab\\` 展示了从远程下载。" },
+            { "type": "单选题", "question": "25. Kubernetes 的简称是？", "options": ["A. Kube", "B. Docker", "C. K8s", "D. GKE"], "answer": "C", "explanation": "PDF第39页明确指出 Kubernetes 简称 K8s。" },
+            { "type": "单选题", "question": "26. `kubectl get svc -n my-ns` 命令的作用是？", "options": ["A. 查看所有命名空间的服务", "B. 查看 `my-ns` 命名空间下的服务", "C. 查看所有服务", "D. 删除 `my-ns` 命名空间的服务"], "answer": "B", "explanation": "PDF第41页 `kubectl get svc -n <namespace>` 用于查看指定命名空间的服务的详情。" },
+            { "type": "单选题", "question": "27. `kubectl exec -it my-pod -n my-ns /bin/sh` 的作用是？", "options": ["A. 查看 `my-pod` 的日志", "B. 删除 `my-pod`", "C. 进入 `my-pod` 容器内部", "D. 查看 `my-pod` 的详细描述"], "answer": "C", "explanation": "PDF第43页 `kubectl exec -ti <pod name> ...` 的作用是进入指定pod。" },
+            { "type": "单选题", "question": "28. 在`vim`的底线命令行模式下，哪个命令表示不保存强制退出？", "options": ["A. `:wq`", "B. `:q`", "C. `:w`", "D. `:q!`"], "answer": "D", "explanation": "PDF第16页底线命令行模式下 `:q!` 表示强制退出(未保存的会丢失)。" },
+            { "type": "单选题", "question": "29. `clear` 命令的作用是？", "options": ["A. 清除上一条命令", "B. 清除历史记录", "C. 清除屏幕上的命令和输出", "D. 注销当前用户"], "answer": "C", "explanation": "PDF第3页快捷键列表中 `clear` 的作用是清除屏幕命令。" },
+            { "type": "单选题", "question": "30. `ps` 命令输出的 `STAT` 字段代表什么？", "options": ["A. 进程启动时间", "B. 进程的ID", "C. 进程的状态", "D. 进程的CPU使用率"], "answer": "C", "explanation": "PDF第29页的字段说明中 `STAT` 表示进程的状态。" },
+            { "type": "单选题", "question": "31. 要查看 `ping` 这个外部命令的帮助信息，应该使用哪个命令？", "options": ["A. `help ping`", "B. `ping --help`", "C. `type ping`", "D. `man --ping`"], "answer": "B", "explanation": "PDF第2页明确指出 `<命令> --help` 用于查看外部命令的帮助信息。" },
+            { "type": "单选题", "question": "32. `Esc`键 + `.`键 这个快捷键组合的作用是？", "options": ["A. 删除整行", "B. 补全命令", "C. 快速输入上一个命令最后的参数", "D. 搜索历史命令"], "answer": "C", "explanation": "PDF第3页快捷键列表中 `Esc键+.键` 的作用是快速输入上一个命令最后的参数。" },
+            { "type": "单选题", "question": "33. `ls student[!0-9]` 命令会匹配下列哪个文件名？", "options": ["A. `student`", "B. `student5`", "C. `studentA`", "D. `student10`"], "answer": "C", "explanation": "PDF第7页通配符说明中 `[!0-9]` 表示不匹配数字0-9。" },
+            { "type": "单选题", "question": "34. 在 `vim` 命令模式下，按 `w` 键光标会如何移动？", "options": ["A. 移动到下一个单词的词首", "B. 移动到上一行的行首", "C. 移动到下一个字符", "D. 保存文件"], "answer": "A", "explanation": "PDF第17页移动类命令中 `w` 用于以单词为单位前进。" },
+            { "type": "单选题", "question": "35. 在 `vim` 命令模式下，使用 `/` 查找到一个关键字后，按哪个键可以定位到下一个匹配结果？", "options": ["A. `Enter`", "B. `p`", "C. `g`", "D. `n`"], "answer": "D", "explanation": "PDF第17页查找类命令中 `n` 用来定位到下一个结果。" },
+            { "type": "单选题", "question": "36. 在 `vim` 命令模式下，哪个命令可以让你从光标所在行之后插入一个空白行并开始编辑？", "options": ["A. `a`", "B. `i`", "C. `o`", "D. `O`"], "answer": "C", "explanation": "PDF第19页插入命令中 `o` 用于从光标所在行之后插入空白行。" },
+            { "type": "单选题", "question": "37. `find . -user fsr` 命令的作用是？", "options": ["A. 查找名为 fsr 的文件", "B. 查找属于用户 fsr 的文件", "C. 查找 fsr 目录下的文件", "D. 查找包含 fsr 内容的文件"], "answer": "B", "explanation": "PDF第20页参数值列表中 `-user` 用于限定文件所有者。" },
+            { "type": "单选题", "question": "38. 在 `netstat` 命令的输出中，`ESTABLISHED` 状态表示什么？", "options": ["A. 正在监听端口", "B. 连接已关闭", "C. 一个打开的连接", "D. 正在等待连接请求"], "answer": "C", "explanation": "PDF第26页网络连接状态列表中，`ESTABLISHED` 代表一个打开的连接。" },
+            { "type": "单选题", "question": "39. `ps` 命令输出的 `TTY` 字段代表什么？", "options": ["A. 进程启动时间", "B. 进程运行终端", "C. 进程使用的CPU时间", "D. 进程的父ID"], "answer": "B", "explanation": "PDF第29页字段说明中 `TTY` 表示进程运行终端。" },
+            { "type": "单选题", "question": "40. `ps` 命令输出的进程状态 `Z` 代表什么？", "options": ["A. 正在运行", "B. 休眠中", "C. 僵尸进程", "D. 已停止"], "answer": "C", "explanation": "PDF第30页进程状态列表中 `Z-Zombie` 表示僵尸进程。" },
+            { "type": "单选题", "question": "41. `top -c` 命令的作用是？", "options": ["A. 按CPU使用率排序", "B. 设置刷新频率", "C. 显示进程的绝对路径", "D. 仅显示指定用户的进程"], "answer": "C", "explanation": "PDF第31页常用选项中 `-c` 的作用是显示进程的绝对路径。" },
+            { "type": "单选题", "question": "42. 在`top`命令的交互界面，按 `Z` 键会发生什么？", "options": ["A. 退出top", "B. 显示帮助信息", "C. 强制结束进程", "D. 高亮显示运行的进程"], "answer": "D", "explanation": "PDF第31页交互命令列表中 `Z` 用于高亮显示运行的进程。" },
+            { "type": "单选题", "question": "43. `lscpu` 命令的信息来源于哪个文件？", "options": ["A. `/proc/cpuinfo`", "B. `/etc/cpu.conf`", "C. `/dev/cpu`", "D. `/proc/meminfo`"], "answer": "A", "explanation": "PDF第32页明确指出 `lscpu` 对应目录 `/proc/cpuinfo`。" },
+            { "type": "单选题", "question": "44. `journalctl --disk-usage` 命令的作用是？", "options": ["A. 清空所有日志", "B. 设置日志磁盘限额", "C. 查看日志占用的空间大小", "D. 实时显示日志"], "answer": "C", "explanation": "PDF第35页 `journalctl --disk-usage` 的作用是查看日志占用空间大小。" },
+            { "type": "单选题", "question": "45. `history` 命令中的 `!cat` 会执行什么？", "options": ["A. 显示所有包含cat的命令", "B. 执行历史记录中最近一次以 `cat` 开头的命令", "C. 删除所有与cat相关的历史", "D. 显示 `cat` 命令的帮助"], "answer": "B", "explanation": "PDF第36页 `!字符` 的作用是从下往上找字符相同的命令。" },
+            { "type": "单选题", "question": "46. Kubernetes的哪个组件运行在Node（节点）上，并负责维护Pod？", "options": ["A. `etcd`", "B. `kube-apiserver`", "C. `kubelet`", "D. `kube-scheduler`"], "answer": "C", "explanation": "PDF第40页产品组件图中，`kubelet` 属于节点(Node)组件。" },
+            { "type": "单选题", "question": "47. 在`vim`的命令模式下，哪个键可以替换当前光标下的单个字符？", "options": ["A. `x`", "B. `c`", "C. `R`", "D. `r`"], "answer": "D", "explanation": "PDF第18页替换命令中 `r` 用于替换一个字符。" },
+            { "type": "单选题", "question": "48. `du -ah | sort -rh` 命令管道组合的作用是？", "options": ["A. 仅显示目录大小并排序", "B. 显示所有文件和目录的大小，并按大小降序排列", "C. 查找大文件", "D. 实时监控目录大小变化"], "answer": "B", "explanation": "PDF第34页 `du -ah | sort -rh` 的作用是显示所有项目并从大到小排列。" },
+            { "type": "单选题", "question": "49. `kubectl get hr -A` 命令的作用是？", "options": ["A. 查看所有pod", "B. 查看所有命名空间下的hr状态", "C. 查看某个hr的详细信息", "D. 删除所有hr"], "answer": "B", "explanation": "PDF第42页 `kubectl get hr -A` 的作用是查看所有命名空间的hr的状态。" },
+            { "type": "单选题", "question": "50. `exit` 命令的作用是？", "options": ["A. 强制关机", "B. 重启系统", "C. 切回上一个用户或关闭终端", "D. 锁定终端"], "answer": "C", "explanation": "PDF第4页 `exit` 的作用是切回上一个用户。" }
+        ];
+
+        function renderQuiz() {
+            const contentDiv = document.getElementById('quiz-content');
+            let html = '<h2>单选题</h2>';
+            quizData.forEach((q, index) => {
+                html += `<div id="q-container-${index}" class="mb-6 p-4 border border-gray-200 rounded-lg transition-all duration-300">
+                            <p class="font-semibold text-gray-800 leading-relaxed">${q.question}</p>
+                            <div class="mt-3 space-y-2 text-gray-700">`;
+                q.options.forEach(opt => {
+                    const optionLetter = opt.charAt(0);
+                    html += `<div class="flex items-center"><label class="inline-flex items-center cursor-pointer"><input type="radio" class="form-radio" name="q${index}" value="${optionLetter}"><span class="ml-2">${opt}</span></label></div>`;
+                });
+                html += `   </div>
+                            <div class="answer-content hidden mt-3 p-4 bg-gray-50 border-l-4 border-indigo-400 rounded-r-lg">
+                                <p class="font-bold text-gray-900">答案： ${q.answer}</p>
+                                <p class="text-sm text-gray-600 mt-2"><strong>解析：</strong> ${q.explanation}</p>
+                            </div>
+                        </div>`;
+            });
+            contentDiv.innerHTML = html;
+        }
+
+        function calculateScore() {
+            let score = 0;
+            quizData.forEach((q, index) => {
+                const container = document.getElementById(`q-container-${index}`);
+                const answerDiv = container.querySelector('.answer-content');
+                const selectedRadio = document.querySelector(`input[name="q${index}"]:checked`);
+                container.classList.remove('correct', 'incorrect');
+                if (selectedRadio && selectedRadio.value === q.answer) {
+                    score++;
+                    container.classList.add('correct');
+                } else {
+                    container.classList.add('incorrect');
+                }
+                answerDiv.classList.remove('hidden');
+            });
+            const scoreContainer = document.getElementById('score-container');
+            const percentage = quizData.length > 0 ? ((score / quizData.length) * 100).toFixed(1) : 0;
+            scoreContainer.innerHTML = `你的得分: <span class="text-green-600">${score}</span> / ${quizData.length} (正确率: ${percentage}%)`;
+            const controlsDiv = document.getElementById('controls');
+            controlsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function resetQuiz() {
+            document.querySelectorAll('input[type="radio"]').forEach(radio => radio.checked = false);
+            quizData.forEach((q, index) => {
+                const container = document.getElementById(`q-container-${index}`);
+                container.classList.remove('correct', 'incorrect');
+                container.querySelector('.answer-content').classList.add('hidden');
+            });
+            document.getElementById('score-container').innerHTML = '';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        document.addEventListener('DOMContentLoaded', renderQuiz);
+    </script>
+</body>
+</html>

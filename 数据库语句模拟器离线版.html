@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>交互式SQL练习场 (离线版)</title>
+    <style>
+        /*
+         * Tailwind CSS v2.2.19
+         *
+         * This is a large block of CSS that makes all the styling work without an internet connection.
+         * It's included here to make the file self-contained.
+         */
+        /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}main{display:block}h1{font-size:2em;margin:.67em 0}hr{box-sizing:content-box;height:0;overflow:visible}pre{font-family:monospace,monospace;font-size:1em}a{background-color:transparent}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}b,strong{font-weight:bolder}code,kbd,samp{font-family:monospace,monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}img{border-style:none}button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;line-height:1.15;margin:0}button,input{overflow:visible}button,select{text-transform:none}[type=button],[type=reset],[type=submit],button{-webkit-appearance:button}[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner,button::-moz-focus-inner{border-style:none;padding:0}[type=button]:-moz-focusring,[type=reset]:-moz-focusring,[type=submit]:-moz-focusring,button:-moz-focusring{outline:1px dotted ButtonText}fieldset{padding:.35em .75em .625em}legend{box-sizing:border-box;color:inherit;display:table;max-width:100%;padding:0;white-space:normal}progress{vertical-align:baseline}textarea{overflow:auto}[type=checkbox],[type=radio]{box-sizing:border-box;padding:0}[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}[type=search]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}details{display:block}summary{display:list-item}template{display:none}[hidden]{display:none}*,:after,:before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,li,ol,p,pre,ul{margin:0}ol,ul{list-style:none;padding:0}:root{--tw-border-opacity:1;border-color:rgba(229,231,235,var(--tw-border-opacity))}button,input,select,textarea{border-color:inherit}body,html{height:100%}button,input,select,textarea{color:inherit}button,[role=button]{cursor:pointer}button:disabled,h1,h2,h3,h4,h5,h6{color:inherit;font-weight:inherit}h1,h2,h3,h4,h5,h6{font-size:inherit}img,video{height:auto;max-width:100%}:root{--tw-shadow:0 0 #0000;--tw-ring-inset:var(--tw-empty, );/*!*/ /*!*/
+        --tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000}body{font-family:sans-serif}.container{width:100%}@media (min-width:640px){.container{max-width:640px}}@media (min-width:768px){.container{max-width:768px}}@media (min-width:1024px){.container{max-width:1024px}}@media (min-width:1280px){.container{max-width:1280px}}@media (min-width:1536px){.container{max-width:1536px}}.col-span-1{grid-column:span 1/span 1}.col-span-2{grid-column:span 2/span 2}.grid{display:grid}.grid-cols-1{grid-template-columns:repeat(1,minmax(0,1fr))}.grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}.items-center{align-items:center}.justify-between{justify-content:space-between}.justify-center{justify-content:center}.space-y-1>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.25rem * var(--tw-space-y-reverse))}.space-y-2>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.5rem * var(--tw-space-y-reverse))}.space-y-4>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.space-y-8>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(2rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(2rem * var(--tw-space-y-reverse))}.gap-8{gap:2rem}.rounded-lg{border-radius:.5rem}.rounded-md{border-radius:.375rem}.rounded-xl{border-radius:.75rem}.border{border-width:1px}.border-b{border-bottom-width:1px}.border-slate-600{--tw-border-opacity:1;border-color:rgba(71,85,105,var(--tw-border-opacity))}.border-slate-700{--tw-border-opacity:1;border-color:rgba(51,65,85,var(--tw-border-opacity))}.border-red-700{--tw-border-opacity:1;border-color:rgba(185,28,28,var(--tw-border-opacity))}.border-green-700{--tw-border-opacity:1;border-color:rgba(4,120,87,var(--tw-border-opacity))}.border-sky-700{--tw-border-opacity:1;border-color:rgba(3,105,161,var(--tw-border-opacity))}.bg-slate-700{--tw-bg-opacity:1;background-color:rgba(51,65,85,var(--tw-bg-opacity))}.bg-slate-800{--tw-bg-opacity:1;background-color:rgba(30,41,59,var(--tw-bg-opacity))}.bg-slate-900{--tw-bg-opacity:1;background-color:rgba(15,23,42,var(--tw-bg-opacity))}.bg-red-900{--tw-bg-opacity:1;background-color:rgba(76,29,29,var(--tw-bg-opacity))}.bg-amber-600{--tw-bg-opacity:1;background-color:rgba(217,119,6,var(--tw-bg-opacity))}.hover\:bg-amber-700:hover{--tw-bg-opacity:1;background-color:rgba(180,83,9,var(--tw-bg-opacity))}.bg-green-900{--tw-bg-opacity:1;background-color:rgba(6,78,59,var(--tw-bg-opacity))}.bg-sky-600{--tw-bg-opacity:1;background-color:rgba(2,132,199,var(--tw-bg-opacity))}.hover\:bg-sky-700:hover{--tw-bg-opacity:1;background-color:rgba(3,105,161,var(--tw-bg-opacity))}.bg-sky-800{--tw-bg-opacity:1;background-color:rgba(7,89,133,var(--tw-bg-opacity))}.hover\:bg-sky-700:hover{--tw-bg-opacity:1;background-color:rgba(3,105,161,var(--tw-bg-opacity))}.bg-sky-900{--tw-bg-opacity:1;background-color:rgba(12,74,110,var(--tw-bg-opacity))}.p-1{padding:.25rem}.p-2{padding:.5rem}.p-2\.5{padding:.625rem}.p-3{padding:.75rem}.p-4{padding:1rem}.p-6{padding:1.5rem}.px-2{padding-left:.5rem;padding-right:.5rem}.py-1{padding-top:.25rem;padding-bottom:.25rem}.py-2{padding-top:.5rem;padding-bottom:.5rem}.px-4{padding-left:1rem;padding-right:1rem}.text-center{text-align:center}.font-mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}.text-xs{font-size:.75rem;line-height:1rem}.text-sm{font-size:.875rem;line-height:1.25rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.font-bold{font-weight:700}.font-semibold{font-weight:600}.text-white{--tw-text-opacity:1;color:rgba(255,255,255,var(--tw-text-opacity))}.text-slate-100{--tw-text-opacity:1;color:rgba(241,245,249,var(--tw-text-opacity))}.text-slate-200{--tw-text-opacity:1;color:rgba(226,232,240,var(--tw-text-opacity))}.text-slate-300{--tw-text-opacity:1;color:rgba(203,213,225,var(--tw-text-opacity))}.text-slate-400{--tw-text-opacity:1;color:rgba(148,163,184,var(--tw-text-opacity))}.text-slate-500{--tw-text-opacity:1;color:rgba(100,116,139,var(--tw-text-opacity))}.text-red-200{--tw-text-opacity:1;color:rgba(254,202,202,var(--tw-text-opacity))}.text-amber-400{--tw-text-opacity:1;color:rgba(251,191,36,var(--tw-text-opacity))}.text-green-200{--tw-text-opacity:1;color:rgba(167,243,208,var(--tw-text-opacity))}.text-sky-200{--tw-text-opacity:1;color:rgba(186,230,253,var(--tw-text-opacity))}.text-sky-300{--tw-text-opacity:1;color:rgba(125,211,252,var(--tw-text-opacity))}.text-sky-400{--tw-text-opacity:1;color:rgba(56,189,248,var(--tw-text-opacity))}.hover\:text-sky-300:hover{--tw-text-opacity:1;color:rgba(125,211,252,var(--tw-text-opacity))}.underline{text-decoration:underline}.hover\:underline:hover{text-decoration:underline}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.shadow-lg{--tw-shadow:0 10px 15px -3px rgba(0,0,0,0.1),0 4px 6px -2px rgba(0,0,0,0.05);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.outline-none{outline:2px solid transparent;outline-offset:2px}.transition{transition-property:background-color,border-color,color,fill,stroke,opacity,box-shadow,transform,filter,-webkit-backdrop-filter;transition-property:background-color,border-color,color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-property:background-color,border-color,color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter,-webkit-backdrop-filter;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:150ms}.duration-200{transition-duration:200ms}.duration-300{transition-duration:300ms}.transition-colors{transition-property:background-color,border-color,color,fill,stroke;transition-property:background-color,border-color,color,fill,stroke,-webkit-text-decoration-color;transition-property:background-color,border-color,color,fill,stroke,text-decoration-color;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:150ms}.list-disc{list-style-type:disc}.list-inside{list-style-position:inside}.w-full{width:100%}.min-h-\[200px\]{min-height:200px}.h-48{height:12rem}.overflow-x-auto{overflow-x:auto}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.focus\:ring-2:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow,0 0 #0000)}.focus\:ring-sky-500:focus{--tw-ring-color:rgba(14,165,233,var(--tw-ring-opacity));--tw-ring-opacity:1}@media (min-width:768px){.md\:p-8{padding:2rem}.md\:text-4xl{font-size:2.25rem;line-height:2.5rem}}@media (min-width:1024px){.lg\:col-span-1{grid-column:span 1/span 1}.lg\:col-span-2{grid-column:span 2/span 2}.lg\:grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}}.mx-auto{margin-left:auto;margin-right:auto}.mb-1{margin-bottom:.25rem}.mb-2{margin-bottom:.5rem}.mb-3{margin-bottom:.75rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mt-1{margin-top:.25rem}.mt-2{margin-top:.5rem}.mt-4{margin-top:1rem}.mb-8{margin-bottom:2rem}.block{display:block}.flex{display:flex}.table{display:table}.hidden{display:none}
+        
+        body {
+            font-family: sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .sql-editor {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #1E293B; /* slate-800 */
+            color: #E2E8F0; /* slate-200 */
+            border: 1px solid #334155; /* slate-700 */
+            border-radius: 8px;
+            padding: 1rem;
+            min-height: 200px;
+            white-space: pre;
+            word-wrap: normal;
+            overflow-x: auto;
+        }
+        .result-table th, .result-table td {
+            min-width: 120px;
+        }
+        .attr-badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            padding: 0.1rem 0.35rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+            margin-left: 0.25rem;
+            vertical-align: middle;
+        }
+        .pk { background-color: #ca8a04; color: #fefce8; } /* yellow-600, yellow-50 */
+        .nn { background-color: #dc2626; color: #fee2e2; } /* red-600, red-100 */
+        .df { background-color: #475569; color: #f1f5f9; } /* slate-600, slate-100 */
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-300">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-white">交互式SQL练习场</h1>
+            <p class="mt-2 text-slate-400">选择一个数据库环境，然后开始编写你的SQL查询吧！</p>
+        </header>
+
+        <main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- 左侧控制面板 -->
+            <aside class="lg-col-span-1 bg-slate-800 p-6 rounded-xl shadow-lg">
+                <div class="mb-6">
+                    <label for="db-type" class="block text-sm font-medium text-slate-200 mb-2">数据库环境</label>
+                    <select id="db-type" class="w-full bg-slate-700 border border-slate-600 text-white rounded-lg focus:ring-sky-500 focus:border-sky-500 p-2.5">
+                        <option value="sqlserver" selected>SQL Server (模拟)</option>
+                        <option value="postgres">PostgreSQL (模拟)</option>
+                    </select>
+                </div>
+
+                <div class="mb-6">
+                    <h2 class="text-lg font-semibold text-white mb-3">数据库结构</h2>
+                    <div id="schema-viewer" class="space-y-4">
+                        <!-- 模式将通过JS动态填充 -->
+                    </div>
+                </div>
+
+                <div>
+                    <h2 class="text-lg font-semibold text-white mb-3">示例查询</h2>
+                    <ul id="sample-queries" class="space-y-2 text-sm">
+                       <!-- 示例将通过JS动态填充 -->
+                    </ul>
+                </div>
+            </aside>
+
+            <!-- 右侧主工作区 -->
+            <div class="lg-col-span-2 space-y-8">
+                <div class="bg-slate-800 p-6 rounded-xl shadow-lg">
+                    <h2 class="text-xl font-semibold text-white mb-4">SQL 编辑器</h2>
+                    <div class="relative">
+                        <textarea id="sql-editor" class="sql-editor w-full h-48 focus:outline-none focus:ring-2 focus:ring-sky-500" placeholder="在此输入SQL... 例如: SELECT * FROM test01;"></textarea>
+                    </div>
+                    <div class="mt-4 flex items-center justify-between">
+                         <button id="reset-data" class="bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">
+                            重置数据
+                        </button>
+                        <button id="execute-query" class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">
+                            执行查询
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-slate-800 p-6 rounded-xl shadow-lg min-h-[200px]">
+                    <h2 class="text-xl font-semibold text-white mb-4">查询结果</h2>
+                    <div id="result-output" class="text-sm">
+                        <p class="text-slate-500">结果将显示在这里。</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // --- 模拟数据 ---
+        let dbData = {};
+
+        const initialData = {
+            sqlserver: {
+                test01: {
+                    schema: [
+                        { name: 'patient_id', type: 'varchar(100)', attributes: ['PRIMARY KEY', 'NOT NULL'] },
+                        { name: 'patient_name', type: 'varchar(100)', attributes: ['NOT NULL'] },
+                        { name: 'patient_sex', type: 'varchar(50)', attributes: [] }
+                    ],
+                    rows: [
+                        { patient_id: 'P001', patient_name: '张三', patient_sex: '男' },
+                        { patient_id: 'P002', patient_name: '李四', patient_sex: '女' },
+                        { patient_id: 'P003', patient_name: '王五', patient_sex: '男' }
+                    ]
+                },
+                test02: {
+                    schema: [
+                        { name: 'patient_id', type: 'varchar(100)', attributes: ['PRIMARY KEY', 'NOT NULL'] },
+                        { name: 'patient_age', type: 'varchar(50)', attributes: [] },
+                        { name: 'patient_city', type: 'varchar(100)', attributes: [] }
+                    ],
+                    rows: [
+                        { patient_id: 'P001', patient_age: '34', patient_city: '上海' },
+                        { patient_id: 'P002', patient_age: '28', patient_city: '北京' },
+                        { patient_id: 'P004', patient_age: '45', patient_city: '广州' }
+                    ]
+                },
+                patient_all_01: {
+                    schema: [
+                         { name: 'patient_id', type: 'varchar(100)', attributes: ['PRIMARY KEY', 'NOT NULL'] },
+                         { name: 'patient_name', type: 'varchar(100)', attributes: [] },
+                         { name: 'patient_sex', type: 'varchar(50)', attributes: [] },
+                         { name: 'patient_age', type: 'varchar(50)', attributes: [] },
+                         { name: 'patient_city', type: 'varchar(100)', attributes: [] },
+                         { name: 'create_by', type: 'varchar(20)', attributes: [] },
+                         { name: 'create_date', type: 'datetime', attributes: ["DEFAULT GETDATE()"] },
+                    ],
+                    rows: []
+                }
+            },
+            postgres: { 
+                 test01: {
+                    schema: [
+                        { name: 'patient_id', type: 'varchar(100)', attributes: ['PRIMARY KEY', 'NOT NULL'] },
+                        { name: 'patient_name', type: 'varchar(100)', attributes: ['NOT NULL'] },
+                        { name: 'patient_sex', type: 'varchar(50)', attributes: [] }
+                    ],
+                    rows: [
+                        { patient_id: 'P001', patient_name: '张三', patient_sex: '男' },
+                        { patient_id: 'P002', patient_name: '李四', patient_sex: '女' },
+                        { patient_id: 'P003', patient_name: '王五', patient_sex: '男' }
+                    ]
+                },
+                test02: {
+                     schema: [
+                        { name: 'patient_id', type: 'varchar(100)', attributes: ['PRIMARY KEY', 'NOT NULL'] },
+                        { name: 'patient_age', type: 'varchar(50)', attributes: [] },
+                        { name: 'patient_city', type: 'varchar(100)', attributes: [] }
+                    ],
+                    rows: [
+                        { patient_id: 'P001', patient_age: '34', patient_city: '上海' },
+                        { patient_id: 'P002', patient_age: '28', patient_city: '北京' },
+                        { patient_id: 'P004', patient_age: '45', patient_city: '广州' }
+                    ]
+                },
+                patient_all_01: {
+                    schema: [
+                         { name: 'patient_id', type: 'varchar(100)', attributes: ['PRIMARY KEY', 'NOT NULL'] },
+                         { name: 'patient_name', type: 'varchar(100)', attributes: [] },
+                         { name: 'patient_sex', type: 'varchar(50)', attributes: [] },
+                         { name: 'patient_age', type: 'varchar(50)', attributes: [] },
+                         { name: 'patient_city', type: 'varchar(100)', attributes: [] },
+                         { name: 'create_by', type: 'varchar(20)', attributes: [] },
+                         { name: 'create_date', type: 'timestamp', attributes: ["DEFAULT CURRENT_TIMESTAMP"] },
+                    ],
+                    rows: []
+                }
+            }
+        };
+
+        const sampleQueries = {
+            sqlserver: [
+                { name: '查询 test01 所有数据', query: 'SELECT * FROM test01;' },
+                { name: '查询 test02 的病人和城市', query: "SELECT patient_id, patient_city FROM test02;" },
+                { name: '使用 WHERE 筛选', query: "SELECT * FROM test01 WHERE patient_sex = '男';" },
+                { name: 'INNER JOIN 连接查询', query: "SELECT t1.patient_id, t1.patient_name, t2.patient_age, t2.patient_city \nFROM test01 t1 \nINNER JOIN test02 t2 ON t1.patient_id = t2.patient_id;" },
+                { name: '创建带约束的表', query: "CREATE TABLE appointments (\n    appointment_id INT PRIMARY KEY,\n    patient_id VARCHAR(100) NOT NULL,\n    doctor_name VARCHAR(100) NOT NULL,\n    status VARCHAR(20) DEFAULT 'Scheduled',\n    appointment_date DATETIME NOT NULL\n);" },
+                { name: '插入违反约束的数据 (失败)', query: "INSERT INTO test01 (patient_id, patient_name, patient_sex) VALUES ('P001', '重复ID', '男');" },
+                { name: '插入部分数据 (触发DEFAULT)', query: "INSERT INTO patient_all_01 (patient_id) VALUES ('P999');" }
+            ],
+            postgres: [
+                { name: '查询 test01所有数据', query: 'SELECT * FROM test01;' },
+                { name: '查询 test02 的病人和城市', query: 'SELECT patient_id, patient_city FROM test02;' },
+                { name: '使用 WHERE 筛选', query: "SELECT * FROM test01 WHERE patient_sex = '女';" },
+                { name: 'INNER JOIN 连接查询', query: "SELECT t1.patient_id, t1.patient_name, t2.patient_age, t2.patient_city \nFROM test01 t1 \nINNER JOIN test02 t2 ON t1.patient_id = t2.patient_id;" },
+                { name: '创建带约束的表', query: "CREATE TABLE appointments (\n    appointment_id SERIAL PRIMARY KEY,\n    patient_id VARCHAR(100) NOT NULL,\n    doctor_name VARCHAR(100) NOT NULL,\n    status VARCHAR(20) DEFAULT 'Scheduled',\n    appointment_date TIMESTAMP NOT NULL\n);" },
+                { name: '插入违反约束的数据 (失败)', query: "INSERT INTO test01 (patient_id, patient_name) VALUES ('P006', NULL);" },
+                { name: '插入部分数据 (触发DEFAULT)', query: "INSERT INTO patient_all_01 (patient_id) VALUES ('P999');" }
+            ]
+        };
+        
+        const dbTypeSelector = document.getElementById('db-type');
+        const schemaViewer = document.getElementById('schema-viewer');
+        const sqlEditor = document.getElementById('sql-editor');
+        const executeBtn = document.getElementById('execute-query');
+        const resultOutput = document.getElementById('result-output');
+        const resetDataBtn = document.getElementById('reset-data');
+        const sampleQueriesEl = document.getElementById('sample-queries');
+
+        function deepClone(obj) {
+            return JSON.parse(JSON.stringify(obj));
+        }
+        
+        function resetData() {
+            dbData = deepClone(initialData);
+            updateUI();
+            displayMessage('数据已重置到初始状态。', 'info');
+        }
+
+        function updateSchemaViewer() {
+            const currentDb = dbTypeSelector.value;
+            schemaViewer.innerHTML = '';
+            const tables = dbData[currentDb];
+            if (!tables || Object.keys(tables).length === 0) {
+                 schemaViewer.innerHTML = '<p class="text-slate-500">此数据库中没有表。</p>';
+                return;
+            }
+
+            for (const tableName in tables) {
+                const tableDef = tables[tableName];
+                const schema = tableDef.schema || [];
+                
+                const tableEl = document.createElement('div');
+                tableEl.className = 'bg-slate-700 p-3 rounded-lg';
+                
+                let columnsHtml = schema.map(col => {
+                    const attributesHtml = (col.attributes || []).map(attr => {
+                        if (attr.toUpperCase().startsWith('PRIMARY KEY')) return '<span class="attr-badge pk">PK</span>';
+                        if (attr.toUpperCase().startsWith('NOT NULL')) return '<span class="attr-badge nn">NN</span>';
+                        if (attr.toUpperCase().startsWith('DEFAULT')) return '<span class="attr-badge df">DF</span>';
+                        return '';
+                    }).join('');
+                    return `<li class="text-slate-400 text-sm flex items-center justify-between">
+                                <span>${col.name} <span class="text-slate-500 font-mono text-xs">${col.type}</span></span>
+                                <div>${attributesHtml}</div>
+                            </li>`;
+                }).join('');
+
+                tableEl.innerHTML = `
+                    <div class="flex justify-between items-center mb-1">
+                        <h3 class="font-semibold text-slate-100">${tableName}</h3>
+                        <button data-table="${tableName}" class="view-data-btn text-xs bg-sky-800 hover:bg-sky-700 text-slate-200 py-1 px-2 rounded-md transition-colors duration-200">查看</button>
+                    </div>
+                    <ul class="mt-1 space-y-1">${columnsHtml || '<li class="text-slate-500">（空表）</li>'}</ul>
+                `;
+                schemaViewer.appendChild(tableEl);
+            }
+        }
+
+        function updateSampleQueries() {
+            const currentDb = dbTypeSelector.value;
+            sampleQueriesEl.innerHTML = '';
+            sampleQueries[currentDb].forEach(item => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = '#';
+                a.className = 'text-sky-400 hover:text-sky-300 hover:underline';
+                a.textContent = item.name;
+                a.onclick = (e) => {
+                    e.preventDefault();
+                    sqlEditor.value = item.query;
+                };
+                li.appendChild(a);
+                sampleQueriesEl.appendChild(li);
+            });
+        }
+        
+        function updateUI() {
+            updateSchemaViewer();
+            updateSampleQueries();
+        }
+
+        function displayError(message) {
+            resultOutput.innerHTML = `<div class="bg-red-900 border border-red-700 text-red-200 p-4 rounded-lg">${message}</div>`;
+        }
+        
+        function displayMessage(message, type = 'success') {
+             const colors = {
+                success: 'bg-green-900 border-green-700 text-green-200',
+                info: 'bg-sky-900 border-sky-700 text-sky-200'
+            };
+            resultOutput.innerHTML = `<div class="${colors[type]} border p-4 rounded-lg">${message}</div>`;
+        }
+
+        function displayResults(data) {
+            if (data.length === 0) {
+                displayMessage('查询成功，但没有返回任何行。', 'info');
+                return;
+            }
+            const headers = Object.keys(data[0]);
+            let table = `<div class="overflow-x-auto"><table class="w-full text-left border-collapse result-table"><thead><tr class="bg-slate-700">`;
+            headers.forEach(h => table += `<th class="p-3 border-b border-slate-600">${h}</th>`);
+            table += `</tr></thead><tbody>`;
+            data.forEach(row => {
+                table += `<tr class="hover:bg-slate-700/50">`;
+                headers.forEach(h => table += `<td class="p-3 border-b border-slate-700">${row[h] === null ? 'NULL' : row[h]}</td>`);
+                table += `</tr>`;
+            });
+            table += `</tbody></table></div>`;
+            resultOutput.innerHTML = table;
+        }
+
+        function executeQuery() {
+            const query = sqlEditor.value.trim().replace(/\n/g, ' ');
+            if (!query) return;
+
+            const currentDb = dbTypeSelector.value;
+            const tables = dbData[currentDb];
+            
+            try {
+                if (query.toLowerCase().startsWith('select')) {
+                     const joinMatch = query.match(/from\s+([a-z0-9_]+)\s+(?:as\s+)?([a-z0-9_]+)\s+inner\s+join\s+([a-z0-9_]+)\s+(?:as\s+)?([a-z0-9_]+)\s+on\s+([a-z0-9_]+\.[a-z0-9_]+)\s*=\s*([a-z0-9_]+\.[a-z0-9_]+)/i);
+                    if (joinMatch) {
+                        const [_, table1Name, table1Alias, table2Name, table2Alias, onCondition1, onCondition2] = joinMatch;
+                        if (!tables[table1Name] || !tables[table2Name]) throw new Error("JOIN 查询中的一个或多个表不存在。");
+                        const [alias1, key1] = onCondition1.split('.');
+                        const [alias2, key2] = onCondition2.split('.');
+                        const joinedData = [];
+                        tables[table1Name].rows.forEach(row1 => {
+                            tables[table2Name].rows.forEach(row2 => {
+                                if (row1[key1] === row2[key2]) {
+                                    let mergedRow = {};
+                                    for(const col in row1) mergedRow[`${table1Alias}.${col}`] = row1[col];
+                                    for(const col in row2) mergedRow[`${table2Alias}.${col}`] = row2[col];
+                                    joinedData.push(mergedRow);
+                                }
+                            });
+                        });
+                        const selectMatch = query.match(/select\s+(.*?)\s+from/i);
+                        const columnsStr = selectMatch[1];
+                        let finalData = joinedData;
+                        if (columnsStr !== '*') {
+                            const columns = columnsStr.split(',').map(c => c.trim());
+                            finalData = joinedData.map(row => {
+                                let newRow = {};
+                                columns.forEach(col => {
+                                    const [alias, colName] = col.split('.');
+                                    newRow[col] = row[`${alias}.${colName}`];
+                                });
+                                return newRow;
+                            });
+                        }
+                        displayResults(finalData);
+                    } else { // Single table SELECT
+                        const fromMatch = query.match(/from\s+([a-z0-9_]+)/i);
+                        if (!fromMatch) throw new Error("语法错误: 缺少 FROM 子句。");
+                        const tableName = fromMatch[1];
+                        if (!tables[tableName]) throw new Error(`表或视图不存在: '${tableName}'`);
+                        let data = deepClone(tables[tableName].rows);
+                        const whereMatch = query.match(/where\s+(.+)/i);
+                        if (whereMatch) {
+                            const condition = whereMatch[1].trim();
+                            const condParts = condition.match(/([a-z0-9_]+)\s*=\s*(?:'([^']*)'|([0-9.]+))/i);
+                             if (condParts) {
+                                const [_, col, valStr, valNum] = condParts;
+                                const value = valStr !== undefined ? valStr : valNum;
+                                data = data.filter(row => String(row[col]) === String(value));
+                            }
+                        }
+                        const selectMatch = query.match(/select\s+(.*?)\s+from/i);
+                        const columnsStr = selectMatch[1];
+                        if (columnsStr !== '*') {
+                            const columns = columnsStr.split(',').map(c => c.trim());
+                            data = data.map(row => {
+                                let newRow = {};
+                                columns.forEach(col => newRow[col] = row[col]);
+                                return newRow;
+                            });
+                        }
+                        displayResults(data);
+                    }
+
+                } else if (query.toLowerCase().startsWith('insert')) {
+                    const match = query.match(/insert\s+into\s+([a-z0-9_]+)\s*(?:\(([^)]+)\))?\s*values\s*\(([^)]+)\)/i);
+                    if (!match) throw new Error("语法错误: INSERT 语句格式不正确。");
+                    
+                    const [_, tableName, colsStr, valsStr] = match;
+                    if (!tables[tableName]) throw new Error(`表不存在: '${tableName}'`);
+
+                    const schema = tables[tableName].schema;
+                    const columns = colsStr ? colsStr.split(',').map(c => c.trim()) : schema.map(s => s.name);
+                    const values = valsStr.split(',').map(v => v.trim().replace(/^'|'$/g, '').replace(/^"|"$/g, ''));
+
+                    if (colsStr && columns.length !== values.length) throw new Error("列数量和值数量不匹配。");
+
+                    let newRow = {};
+                    columns.forEach((col, index) => {
+                        const value = values[index];
+                        newRow[col] = (value.toLowerCase() === 'null') ? null : value;
+                    });
+                    
+                    schema.forEach(colDef => {
+                        if (newRow[colDef.name] === undefined) {
+                            const defaultAttr = colDef.attributes.find(a => a.toUpperCase().startsWith('DEFAULT'));
+                            if (defaultAttr) {
+                                let defaultVal = defaultAttr.split(/\s+/).slice(1).join(' ').replace(/^'|'$/g, '');
+                                if (defaultVal.toLowerCase() === 'getdate()' || defaultVal.toLowerCase() === 'current_timestamp') {
+                                    defaultVal = new Date().toISOString().slice(0, 19).replace('T', ' ');
+                                }
+                                newRow[colDef.name] = defaultVal;
+                            }
+                        }
+                        
+                        if (colDef.attributes.includes('NOT NULL') && (newRow[colDef.name] === null || newRow[colDef.name] === undefined)) {
+                            throw new Error(`约束冲突 (NOT NULL): 列 '${colDef.name}' 不允许为空值。`);
+                        }
+                        
+                        if (colDef.attributes.includes('PRIMARY KEY')) {
+                            const pkExists = tables[tableName].rows.some(row => row[colDef.name] === newRow[colDef.name]);
+                            if (pkExists) {
+                                throw new Error(`约束冲突 (PRIMARY KEY): 值 '${newRow[colDef.name]}' 在列 '${colDef.name}' 中已存在。`);
+                            }
+                        }
+                    });
+
+                    tables[tableName].rows.push(newRow);
+                    updateSchemaViewer();
+                    displayMessage(`成功向 '${tableName}' 表插入 1 行。`, 'success');
+
+                } else if (query.toLowerCase().startsWith('update')) {
+                    const match = query.match(/update\s+([a-z0-9_]+)\s+set\s+([a-z0-9_]+)\s*=\s*'([^']+)'\s+where\s+(.*)/i);
+                    if (!match) throw new Error("语法错误: UPDATE 语句格式不正确。");
+                    const [_, tableName, colToUpdate, newValue, whereClause] = match;
+                    if (!tables[tableName]) throw new Error(`表不存在: '${tableName}'`);
+                    const condParts = whereClause.match(/([a-z0-9_]+)\s*=\s*'([^']+)'/);
+                    if (!condParts) throw new Error("WHERE 子句格式不支持。");
+                    const [__, whereCol, whereVal] = condParts;
+                    let updatedCount = 0;
+                    tables[tableName].rows.forEach(row => {
+                        if (String(row[whereCol]) === String(whereVal)) {
+                            row[colToUpdate] = newValue;
+                            updatedCount++;
+                        }
+                    });
+                    displayMessage(`成功更新 ${updatedCount} 行。`, 'success');
+
+                } else if (query.toLowerCase().startsWith('delete')) {
+                     const match = query.match(/delete\s+from\s+([a-z0-9_]+)\s+where\s+(.*)/i);
+                     if (!match) throw new Error("语法错误: DELETE 语句格式不正确。");
+                    const [_, tableName, whereClause] = match;
+                    if (!tables[tableName]) throw new Error(`表不存在: '${tableName}'`);
+                    const condParts = whereClause.match(/([a-z0-9_]+)\s*=\s*'([^']+)'/);
+                    if (!condParts) throw new Error("WHERE 子句格式不支持。");
+                    const [__, whereCol, whereVal] = condParts;
+                    const originalLength = tables[tableName].rows.length;
+                    dbData[currentDb][tableName].rows = tables[tableName].rows.filter(row => String(row[whereCol]) !== String(whereVal));
+                    const deletedCount = originalLength - tables[tableName].rows.length;
+                    displayMessage(`成功删除 ${deletedCount} 行。`, 'success');
+
+                } else if (query.toLowerCase().startsWith('create table')) {
+                    const match = query.match(/create\s+table\s+([a-z0-9_]+)\s*\((.+)\)/i);
+                    if (!match) throw new Error("语法错误: CREATE TABLE 语句格式不正确。");
+
+                    const [_, tableName, columnsStr] = match;
+                    if (tables[tableName]) throw new Error(`表 '${tableName}' 已存在。`);
+                    
+                    const columns = columnsStr.split(',').map(c => {
+                        const trimmed = c.trim();
+                        const parts = trimmed.split(/\s+/);
+                        const name = parts[0];
+                        const type = parts[1];
+                        
+                        const attributes = [];
+                        const rest = trimmed.substring(name.length + type.length + 2).toUpperCase();
+
+                        if (rest.includes('PRIMARY KEY')) attributes.push('PRIMARY KEY');
+                        if (rest.includes('NOT NULL')) attributes.push('NOT NULL');
+                        const defaultMatch = rest.match(/DEFAULT\s+([^,]+)/);
+                        if (defaultMatch) attributes.push(`DEFAULT ${defaultMatch[1]}`);
+                        
+                        return { name, type, attributes };
+                    });
+                    
+                    tables[tableName] = { schema: columns, rows: [] };
+                    
+                    updateSchemaViewer();
+                    displayMessage(`表 '${tableName}' 创建成功。`, 'success');
+
+                } else {
+                    throw new Error("不支持的SQL命令。本模拟器仅支持基本的 SELECT, INSERT, UPDATE, DELETE 和 CREATE TABLE。");
+                }
+
+            } catch (e) {
+                displayError(e.message);
+            }
+        }
+
+        dbTypeSelector.addEventListener('change', updateUI);
+        executeBtn.addEventListener('click', executeQuery);
+        resetDataBtn.addEventListener('click', resetData);
+
+        schemaViewer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('view-data-btn')) {
+                const tableName = e.target.dataset.table;
+                const currentDb = dbTypeSelector.value;
+                const tableDef = dbData[currentDb][tableName];
+                const schema = tableDef.schema;
+                const tableData = tableDef.rows;
+
+                sqlEditor.value = `SELECT * FROM ${tableName};`;
+
+                const schemaHtml = `
+                    <h3 class="text-lg font-semibold text-white mb-2">表结构: <span class="font-mono">${tableName}</span></h3>
+                    <div class="bg-slate-700/50 p-4 rounded-md mb-6">
+                        <ul class="list-disc list-inside space-y-1">
+                            ${schema.length > 0 ? schema.map(c => {
+                                const attributesText = (c.attributes || []).join(' ');
+                                return `<li class="font-mono text-slate-300">${c.name} <span class="text-slate-400">${c.type}</span> <span class="text-amber-400 text-xs">${attributesText}</span></li>`
+                            }).join('') : '<li class="text-slate-500">此表没有定义列 (空表)。</li>'}
+                        </ul>
+                    </div>
+                `;
+
+                let dataHtml = `<h3 class="text-lg font-semibold text-white mb-2">表数据: <span class="font-mono">${tableName}</span></h3>`;
+                if (tableData.length === 0) {
+                    dataHtml += `<div class="text-slate-500 p-4 bg-slate-700/50 rounded-md">表中没有数据。</div>`;
+                } else {
+                    const headers = Object.keys(tableData[0]);
+                    let table = `<div class="overflow-x-auto"><table class="w-full text-left border-collapse result-table"><thead><tr class="bg-slate-700">`;
+                    headers.forEach(h => table += `<th class="p-3 border-b border-slate-600">${h}</th>`);
+                    table += `</tr></thead><tbody>`;
+                    tableData.forEach(row => {
+                        table += `<tr class="hover:bg-slate-700/50">`;
+                        headers.forEach(h => table += `<td class="p-3 border-b border-slate-700">${row[h] === null ? 'NULL' : row[h]}</td>`);
+                        table += `</tr>`;
+                    });
+                    table += `</tbody></table></div>`;
+                    dataHtml += table;
+                }
+                
+                resultOutput.innerHTML = schemaHtml + dataHtml;
+                sqlEditor.focus();
+            }
+        });
+
+        // --- 初始化 ---
+        resetData();
+    </script>
+
+</body>
+</html>
